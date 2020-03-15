@@ -1,7 +1,10 @@
-# evaporation between three panel
-# author: TZP
-# Date: 2019-10-08
+# evaporation between two panel
+# author: davida9966
+# Date: 2020-03-14
 # Evaporation
+
+#计算基本设置
+processors 2 4 4
 
 # 体系基础设置
 units       real
@@ -15,9 +18,9 @@ region      box block 0 5  0 60  0 90
 create_box  3 box
 
 #create atom
-region  water   block   EDGE EDGE   20.6 40.5	5.0 45.0
-region  left    block   EDGE EDGE   0.5 20.5	5.0 50.0
-region	right	block	EDGE EDGE	40.6 59.6	5.0 50.0
+region  water   block   EDGE EDGE   20.6 40.5	5.0 40.0
+region  left    block   EDGE EDGE   0.5 20.5	1.0 50.0
+region	right	block	EDGE EDGE	40.6 59.6	1.0 50.0
 
 
 create_atoms	1	region water
@@ -45,14 +48,14 @@ fix		fixwall	walls	spring/self	1.0
 # fix fixall all nve 动力学积分
 fix     temp1   walls	nvt   temp	  100.0 100.0 100.0
 fix     temp2   argon   nvt   temp    100.0 100.0 100.0
-fix	    zwalls	all     wall/reflect	zhi EDGE		# reflect wall
+fix	    zwalls	all     wall/reflect	zlo EDGE    zhi EDGE		# reflect wall
 #fix zwalls2 argon wall/lj126   zlo EDGE 0.2 3.405 17.025
 fix	    ywalls	all     wall/reflect	ylo EDGE	yhi EDGE
 #fix argongravity argon gravity 9.37e-14 vector 0 0 -1
 
 #气液相识别
 compute voro argon voronoi/atom
-dump output_voro argon  custom 2000 voro.20200314.data.txt id c_voro[1]
+dump output_voro argon  custom 4000 voro.20200315.data.txt id c_voro[1]
 
 variable vapor atom c_voro[1]>323
 variable liquid atom c_voro[1]<=323
@@ -63,13 +66,13 @@ group liquid dynamic argon var liquid every 10
 compute liquidtemp liquid temp
 compute vaportemp vapor temp
 compute walltemp walls temp
-fix temp all ave/time 100 100 10000 c_liquidtemp c_vaportemp c_walltemp file temp.20191007.data.txt
+fix temp all ave/time 100 100 10000 c_liquidtemp c_vaportemp c_walltemp file temp.20200315.data.txt
 
 
-dump	dump1	all	atom 2000 dump.20200314.evapor.lammpstrj
+dump	dump1	all	atom 4000 dump.20200315.evapor.lammpstrj
 restart	50000	vapor20200314.restart
 
-thermo	2000
+thermo	4000
 thermo_modify flush yes
 timestep	1
 run		1000000
