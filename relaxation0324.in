@@ -19,7 +19,7 @@ create_box  3 box
 
 #create atom
 region  water1   block   EDGE EDGE   5.0 25.0	20.0 30.0
-region  water2   block   EDGE EDGE   0.1 29.9   0.1  19.9
+region  water2   block   EDGE EDGE   0.1 29.9 0.1  19.9
 region  left    block    EDGE EDGE   0.1 4.9	20.0 60.0
 region	right	block	 EDGE EDGE	 25.1 29.9	20.0 60.0
 region  water   union   2   water1   water2

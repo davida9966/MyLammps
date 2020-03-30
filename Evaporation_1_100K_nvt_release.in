@@ -18,7 +18,7 @@ region      box block 0 5  0 60  0 90
 create_box  3 box
 
 #create atom
-region  water   block   EDGE EDGE   20.6 40.5	3.0 35.0
+region  water   block   EDGE EDGE   20.6 40.5	3.0 37.0
 region  left    block   EDGE EDGE   0.5 20.5	1.0 50.0
 region	right	block	EDGE EDGE	40.6 59.6	1.0 50.0
 
@@ -29,6 +29,14 @@ create_atoms	3	region right
 mass			1	39.948
 mass			2	195.084
 mass			3	195.084
+
+region left_2 block     EDGE EDGE   0.5 15.5    6.0 45.0
+region right_2 block    EDGE EDGE   45.6 59.6   6.0 45.0
+
+#减少壁面原子数
+delete_atoms region left_2
+delete_atoms region right_2
+
 #read_restart vapor20200314.restart.50000
 #write_data	data.setup.txt nocoeff
 
@@ -49,7 +57,7 @@ fix		fixwall	walls	spring/self	1.0
 fix     temp1   walls	nvt   temp	  100.0 100.0 100.0
 fix     temp2   argon   nvt   temp    100.0 100.0 100.0
 fix	    zwalls	walls     wall/reflect	zlo EDGE    zhi EDGE
-fix     zwalls2 argon     wall/reflect  zlo EDGE    zhi 48.0		# reflect wall
+fix     zwalls2 argon     wall/reflect  zlo EDGE    zhi 49.0		# reflect wall
 fix	    ywalls	all     wall/reflect	ylo EDGE	yhi EDGE
 #fix argongravity argon gravity 9.37e-14 vector 0 0 -1
 
